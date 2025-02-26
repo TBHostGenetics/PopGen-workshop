@@ -5,15 +5,12 @@
 
 # It is likely that there will be some genotypes that were not imputed with a high degree of accuracy or certainty. We would like to exclude these genotypes so that they do not cause spurious results downstream. In this demonstration, we will show you how to remove SNPs with imputation INFO quality scores below 0.8. Remember, the INFO score is a value between 0 and 1 that tells us how well a genotype has been imputed. INFO score values close to 1 indicate that a SNP has been imputed with a high degree of certainty that the genotype is correct. 
 
-# Step 1: Remove SNPs with INFO scores less than 0.8.
+We remove really rare SNPs (which are not the focus of this workshop) and improve the computational efficiency of our downstream analyses. Again, we will use a basic for-loop to apply the filter to all chromosomes. 
+
+# QC step: Remove SNPs with INFO scores less than 0.8 and Remove SNPs with MAF less than 0.01. 
 You should have already downloaded your imputed files (chromosomes 1 to 22) from the Sanger Imputation Server. To improve computational efficiency, we will work with the files in per-chromosome format and use some basic Unix for-loops to run our commands. 
 
-for i in {1..22}; do bcftools filter -e 'INFO/INFO<0.8' ${i}.pbwt_reference_impute.vcf.gz -Oz -o chr${i}_imputed_INFO.vcf.gz; done
-
-# Step 2: Remove SNPs with MAF less than 0.01. 
-This step will remove really rare SNPs (which are not the focus of this workshop) and improve the computational efficiency of our downstream analyses. Again, we will use a basic for-loop to apply the filter to all chromosomes. 
-
-for i in {1..22}; do bcftools filter -e 'INFO/RefPanelAF<0.01' chr${i}_imputed_INFO.vcf.gz -Oz -o chr${i}_imputed_INFO_MAF.vcf.gz; done
+for i in {1..22}; do bcftools filter -e 'INFO/INFO<0.8 && INFO/RefPanelAF<0.01' ${i}.pbwt_reference_impute.vcf.gz -Oz -o chr${i}_imputed_INFO_MAF.vcf.gz; done
 
 Finally, you can join all the chromosomes together to form one file using BCFTools. 
 # Tabix the BGZipped files
