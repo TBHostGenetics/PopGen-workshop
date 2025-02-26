@@ -8,9 +8,9 @@ This GitHub page contains scripts and demonstration notes for the annual PopGen 
 - Global and local ancestry inference using ADMIXTURE and RFMix
 
 ## Concepts covered in the second workshop:
+- Revise the content of the previous workshop
 - Genome-wide Association Studies (GWASs)
-- Admixture mapping
-- Local Ancestry Adjusted Allelic Association (LAAA) models
+- Admixture mapping and the Local Ancestry Adjusted Allelic Association (LAAA) models
 - Polygenic Risk Scores (PRSs)
 
 ## Required software:
