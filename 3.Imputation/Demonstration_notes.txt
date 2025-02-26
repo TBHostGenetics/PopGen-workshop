@@ -5,7 +5,7 @@
 # In this demonstration, we will perform imputation through the Sanger Imputation Service, which has been made freely and publicly available by the Wellcome Sanger Institute (https://imputation.sanger.ac.uk).
 
 # Step 1: Convert your QC'd merged PLINK files to Variant Call Format (VCF).
-./plink2 --bfile Merged_files_QC --recode vcf --out Merged_files_QC
+plink2 --bfile Merged_files_QC --recode vcf --out Merged_files_QC
 
 # Step 2: Upload your file to the Sanger Imputation Server. 
 Before you start your upload, ensure that you have read through instructions and set up a free Globus account (https://www.globus.org).
