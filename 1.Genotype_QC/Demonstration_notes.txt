@@ -14,20 +14,15 @@ Most PLINK runs require exactly one main input fileset. The following flags are 
 
 ## Genotype QC ##
 # Step 1: Remove SNPs with genotype call rate <95%.
- ./plink2 --bfile Target --geno 0.05 --make-bed --out Target_geno0.05
 
 # Step 2: Remove individuals missing >10% genotypes.
- ./plink2 --bfile Target_geno0.05 --mind 0.1 --make-bed --out Target_geno0.05_mind0.1
 
 # Step 3: Remove monomorphic SNPs
 # How many individuals are in the file? What is the MAF threshold we need to set? 
 # n = 14; maf= 1/2(14) = 1/28 = 0.036
- ./plink2 --bfile Target_geno0.05_mind0.1 --maf 0.036 --make-bed --out Target_geno0.05_mind0.1_noMonoSNPs
 
 # Step 4: Remove SNPs deviating from HWE p-value = 1.00e-5
- ./plink2 --bfile Target_geno0.05_mind0.1_noMonoSNPs --hwe 0.00001 --make-bed --out Target_geno0.05_mind0.1_noMonoSNPs_HWE
 
-## Note: we can also combine all the QC steps into one command line 
  ./plink2 --bfile Target --geno 0.05 --mind 0.1 --maf 0.036 --hwe 0.00001 --make-bed --out Target_QC
 
 ## One file has now been QC'd! Now do the Reference file on your own :)
