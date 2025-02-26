@@ -1,6 +1,8 @@
 ## PopGen Workshop - Post-imputation QC ##
 ## Demonstration ##
 
+# Since the imputation step can take some time, we performed the same steps and have downloaded the output from SIS for you. The instructor will inform you how to retrieve the files.
+
 # It is likely that there will be some genotypes that were not imputed with a high degree of accuracy or certainty. We would like to exclude these genotypes so that they do not cause spurious results downstream. In this demonstration, we will show you how to remove SNPs with imputation INFO quality scores below 0.8. Remember, the INFO score is a value between 0 and 1 that tells us how well a genotype has been imputed. INFO score values close to 1 indicate that a SNP has been imputed with a high degree of certainty that the genotype is correct. 
 
 # Step 1: Remove SNPs with INFO scores less than 0.8.
@@ -33,8 +35,6 @@ Now, run king to identify 2nd degree relatives to be removed.
 ./king -b PopGen_allSamples_imputed_QC.bed --unrelated --degree 2
 
 The list of unrelated individuals can now be extracted from your dataset using PLINK. Look in the PLINK documentation for how to do this and try it now on your own ;)
-
-You are now ready to move onto the next step - Ancestry inference!
 
 
 
