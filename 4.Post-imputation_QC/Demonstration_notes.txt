@@ -13,26 +13,11 @@ This step will remove really rare SNPs (which are not the focus of this workshop
 
 for i in {1..22}; do bcftools filter -e 'INFO/RefPanelAF<0.01' chr${i}_imputed_INFO.vcf.gz -Oz -o chr${i}_imputed_INFO_MAF.vcf.gz; done
 
-# Step 3: Phase the imputed genotypes. 
-Before we move onto ancestry inference, we need to identify whether each allele at each SNP comes from the maternal or paternal chromosome. To do this, we need to perform phasing, the process of inferring haplotypes from genotype data. A phased VCF file will have genotypes separated by a pipe ("|") instead of a forward slash ("/"). 
-
-In this demonstration, we will phase our imputed VCF files using SHAPEIT. You will also need a haplotype map (in this demonstration, we will use the HapMap recombination map file available at https://ftp.ncbi.nlm.nih.gov/hapmap/recombination/2011-01_phaseII_B37/).
-
-for i in {1..22}; do ./shapeit --input-vcf chr${i}_imputed_INFO_MAF.vcf.gz -M genetic_map_chr${i}_combined_b37.txt -O chr${i}_imputed_INFO_MAF.phased; done
-
-## Note, phasing is a computationally intensive process. It will take a while to run and will require a bit of free memory. ##
-
-Once your files are phased, you can convert to VCF format.
-
-for i in {1..22}; do ./../SHAPEIT -convert --input-haps chr${i}_imputed_QC_phased.phased.haps --output-vcf chr${i}_imputed_QC_phased.vcf; done
-
 Finally, you can join all the chromosomes together to form one file using BCFTools. 
-# BGZip all files
-for i in {1..22}; do bgzip chr${i}_imputed_QC_phased.vcf; done
 # Tabix the BGZipped files
-for i in {1..22}; do tabix -p vcf chr${i}_imputed_QC_phased.vcf.gz; done
+for i in {1..22}; do tabix -p vcf chr${i}_imputed_INFO_MAF.vcf.gz; done
 # Join all the chromosomes together
-bcftools concat chr1_imputed_QC_phased.vcf.gz chr2_imputed_QC_phased.vcf.gz chr3_imputed_QC_phased.vcf.gz chr4_imputed_QC_phased.vcf.gz chr5_imputed_QC_phased.vcf.gz chr6_imputed_QC_phased.vcf.gz chr7_imputed_QC_phased.vcf.gz chr8_imputed_QC_phased.vcf.gz chr9_imputed_QC_phased.vcf.gz chr10_imputed_QC_phased.vcf.gz chr11_imputed_QC_phased.vcf.gz chr12_imputed_QC_phased.vcf.gz chr13_imputed_QC_phased.vcf.gz chr14_imputed_QC_phased.vcf.gz chr15_imputed_QC_phased.vcf.gz chr16_imputed_QC_phased.vcf.gz chr17_imputed_QC_phased.vcf.gz chr18_imputed_QC_phased.vcf.gz chr19_imputed_QC_phased.vcf.gz chr20_imputed_QC_phased.vcf.gz chr21_imputed_QC_phased.vcf.gz chr22_imputed_QC_phased.vcf.gz -Oz -o PopGen_allSamples_imputed_QC_phased.vcf.gz
+bcftools concat chr1_imputed_INFO_MAF.gz chr2_imputed_QC_INFO_MAF.gz chr3_imputed_INFO_MAF.vcf.gz chr4_imputed_INFO_MAF.vcf.gz chr5_imputed_INFO_MAF.vcf.gz chr6_imputed_INFO_MAF.vcf.gz chr7_imputed_INFO_MAF.vcf.gz chr8_imputed_INFO_MAF.vcf.gz chr9_imputed_INFO_MAF.vcf.gz chr10_imputed_INFO_MAF.vcf.gz chr11_imputed_INFO_MAF.vcf.gz chr12_imputed_INFO_MAF.vcf.gz chr13_imputed_INFO_MAF.vcf.gz chr14_imputed_INFO_MAF.vcf.gz chr15_imputed_INFO_MAF.vcf.gz chr16_imputed_INFO_MAF.vcf.gz chr17_imputed_INFO_MAF.vcf.gz chr18_imputed_INFO_MAF.vcf.gz chr19_imputed_INFO_MAF.vcf.gz chr20_imputed_INFO_MAF.vcf.gz chr21_imputed_INFO_MAF.vcf.gz chr22_imputed_INFO_MAF.vcf.gz -Oz -o PopGen_allSamples_imputed_INFO_MAF.vcf.gz
 
 # Step 4: Remove related individuals. 
 Many downstream statistical analyses, such as ancestry inference and genetic association models, require all individuals in the dataset to be unrelated. Before we move on, we must look to see if there are related individuals in our dataset and remove one related individual from each relationship pair. Normally, we want to remove individuals that are closer than second-degree relatives. 
@@ -41,7 +26,7 @@ Many downstream statistical analyses, such as ancestry inference and genetic ass
 
 First, convert your merged, imputed, QC'd and phased file to PLINK binary file format. 
 
-./plink2 --vcf PopGen_allSamples_imputed_QC_phased.vcf.gz --make-bed --out PopGen_allSamples_imputed_QC
+./plink2 --vcf PopGen_allSamples_imputed_INFO_MAF.vcf.gz --make-bed --out PopGen_allSamples_imputed_QC
 
 Now, run king to identify 2nd degree relatives to be removed.
 
