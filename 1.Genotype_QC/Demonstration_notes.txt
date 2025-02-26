@@ -7,7 +7,7 @@ head Target.bim # Extended variant information file accompanying a .bed binary g
 head Target.fam # Sample information file accompanying a .bed binary genotype table.
 
 # Take a look at how PLINK works
-./plink2 --help
+plink2 --help
 
 Most PLINK runs require exactly one main input fileset. The following flags are available for defining its form and location:
 --bfile  <prefix> ['vzs'] : Specify .bed + .bim[.zst] + .fam prefix.
@@ -23,6 +23,6 @@ Most PLINK runs require exactly one main input fileset. The following flags are 
 
 # Step 4: Remove SNPs deviating from HWE p-value = 1.00e-5
 
- ./plink2 --bfile Target --geno 0.05 --mind 0.1 --maf 0.036 --hwe 0.00001 --make-bed --out Target_QC
+ plink2 --bfile Target --geno 0.05 --mind 0.1 --maf 0.036 --hwe 0.00001 --make-bed --out Target_QC
 
 ## One file has now been QC'd! Now do the Reference file on your own :)
