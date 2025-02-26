@@ -1,6 +1,6 @@
 ## PopGen Workshop - GWAS ##
 ## Demonstration ##
 
-./plink2 --bfile PopGen_allSamples_imputed_QC_unrelated --glm --covar covariates.txt --covar-name AGE,AFR,EAS,EUR,SAN,SAS --covar-variance-standardize AGE AFR EAS EUR SAN SAS --adjust --ci 0.95 --vif 100 --out gwasresults
+./plink2 --bfile PopGen_allSamples_imputed_QC_unrelated_casecontrolonly --glm --covar covariates.txt --covar-name AGE,AFR,EAS,EUR,SAN,SAS --covar-variance-standardize AGE AFR EAS EUR SAN SAS --adjust --ci 0.95 --vif 100 --out gwasresults
 
 ## Let's now inspect the results
