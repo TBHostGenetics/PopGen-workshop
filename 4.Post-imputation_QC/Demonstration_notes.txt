@@ -25,11 +25,11 @@ Many downstream statistical analyses, such as ancestry inference and genetic ass
 
 First, convert your merged, imputed, QC'd and phased file to PLINK binary file format. 
 
-./plink2 --vcf PopGen_allSamples_imputed_INFO_MAF.vcf.gz --make-bed --out PopGen_allSamples_imputed_QC
+plink2 --vcf PopGen_allSamples_imputed_INFO_MAF.vcf.gz --make-bed --out PopGen_allSamples_imputed_QC
 
 Now, run king to identify 2nd degree relatives to be removed.
 
-./king -b PopGen_allSamples_imputed_QC.bed --unrelated --degree 2
+king -b PopGen_allSamples_imputed_QC.bed --unrelated --degree 2
 
 The list of unrelated individuals can now be extracted from your dataset using PLINK. Look in the PLINK documentation for how to do this and try it now on your own ;)
 
