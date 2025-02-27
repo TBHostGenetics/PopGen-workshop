@@ -20,7 +20,7 @@ comm -12 Target_SNP_list.txt Reference_SNP_list.txt > Intersecting_SNPs.txt
 
 # Step 5: Merge!
 
- plink2 --bfile Target_IntersectingSNPs --pmerge Reference_IntersectingSNPs.bed Reference_IntersectingSNPs.bim Reference_IntersectingSNPs.fam --make-bed --out Merged_files
+ plink --bfile Target_IntersectingSNPs --bmerge Reference_IntersectingSNPs.bed Reference_IntersectingSNPs.bim Reference_IntersectingSNPs.fam --make-bed --out Merged_files
 
 # Step 6: QC merged file to remove residual genotyping errors. 
  plink2 --bfile Merged_files --geno 0.05 --mind 0.1 --hwe 0.00001 --make-bed --out Merged_files_QC
