@@ -1,16 +1,34 @@
-# Load necessary libraries
 library(ggplot2)
 library(dplyr)
 
-# Load GLM association test results (modify filename as needed)
-glm_results_file <- "gwasresults.txt"  # Change to your actual file path
-df <- read.table(glm_results_file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+# File paths (edit these if needed)
+glm_file <- "gwasresults.PHENO1.glm.logistic.hybrid.adjusted"  # PLINK GWAS output
+bim_file <- "PopGen_allSamples_imputed_QC_unrelated_casecontrolonly.bim"  # PLINK BIM file
+
+# Load GWAS results
+gwas <- read.table(glm_file, header=TRUE, stringsAsFactors=FALSE)
+
+# Load SNP positions from BIM file
+bim <- read.table(bim_file, header=FALSE, stringsAsFactors=FALSE,
+                  col.names=c("CHR", "SNP", "CM", "BP", "A1", "A2"))
+
+# Select relevant columns from BIM
+bim <- bim %>% select(SNP, CHR, BP)
+
+# Merge GWAS results with BP info
+gwas <- merge(gwas, bim, by="SNP")
+
+# Reorder columns for clarity
+gwas <- gwas %>% select(SNP, CHR, BP, everything())
+
+# Load GLM association test results
+df <- read.table(gwas, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 
 # Ensure necessary columns exist: 'CHR' (Chromosome), 'BP' (Base Pair Position), 'P' (P-value)
-required_cols <- c("CHR", "BP", "P")
-if (!all(required_cols %in% colnames(df))) {
-  stop("The input file must contain 'CHR' (Chromosome), 'BP' (Base Pair Position), and 'P' (P-value) columns.")
-}
+#required_cols <- c("CHR", "BP", "P")
+#if (!all(required_cols %in% colnames(df))) {
+  #stop("The input file must contain 'CHR' (Chromosome), 'BP' (Base Pair Position), and 'P' (P-value) columns.")
+#}
 
 # Convert chromosome to factor for proper ordering
 df$CHR <- as.factor(df$CHR)
