@@ -6,3 +6,13 @@ plink2 --bfile PopGen_allSamples_imputed_QC_unrelated_casecontrolonly --glm --co
 ## Let's now inspect the results
 
 ## Plot the results in R using manhattanplot.r to see if any varaints surpassed the significance threshold
+
+# Go to RStudio and install and load the qqman package.
+### Making Manhattans and qqplots
+library(qqman)
+str(gwasResults)
+head(gwasResults)
+tail(gwasResults)
+manhattan(gwasResults)
+qq(gwasResults$P)
+
